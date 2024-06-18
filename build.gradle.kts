@@ -6,25 +6,43 @@
  */
 
 plugins {
+
 //    kotlin("multiplatform") version "2.0.0"
     kotlin("jvm") version "2.0.0"
     kotlin("plugin.power-assert") version "2.0.0"
+//    id("org.jetbrains.compose") version "1.6.11"
+
+    // 根目录添加
+//    alias(libs.plugins.jetbrainsCompose) apply false
+//    alias(libs.plugins.compose.compiler) apply false
+
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
+
 }
 
-//powerAssert {
-//    functions = listOf("kotlin.assert", "kotlin.test.assertTrue")
-//}
+powerAssert {
+    functions = listOf("kotlin.assert", "kotlin.test.assertTrue")
+}
 
 group = "tw.supra.n2"
 version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    google()
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
+    implementation(compose.desktop.currentOs)
+}
+
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+    }
 }
 
 //compileKotlin {

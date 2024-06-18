@@ -2,7 +2,7 @@ package tw.supra.w2
 
 import kotlin.math.abs
 
-class Space(nature: Nature) : Looping {
+class Space(nature: Nature, reporter: Space.() -> Unit = DEFAULT_REPORTOR) : Looping {
     override var inertness = 100L
     val nature = nature
     val e = nature.maxAbsoluteDistance
@@ -37,7 +37,9 @@ class Space(nature: Nature) : Looping {
         requireIndex(Dimension.Y, spirit.y).remove(spirit.x)
     }
 
-    val reportors: MutableSet<Space.() -> Unit> by lazy { mutableSetOf(DEFAULT_REPORTOR) }
+    val reportors: MutableSet<Space.() -> Unit> by lazy { mutableSetOf(DEFAULT_REPORTOR, reporter) }
+
+    fun addReportor(reportor: Space.() -> Unit) = reportors.add(reportor)
 
     val spirits = mutableSetOf<Spirit>()
 
@@ -87,13 +89,15 @@ class Space(nature: Nature) : Looping {
         var line = ""
         for (x in w..e) {
             val spirit = index[x]
-            line += " ${when {
-                null != spirit -> spirit.name
-                c == x && c == y -> "+"
-                c == y -> "—"
-                c == x -> "|"
-                else -> "."
-            }} "
+            line += " ${
+                when {
+                    null != spirit -> spirit.name
+                    c == x && c == y -> "+"
+                    c == y -> "—"
+                    c == x -> "|"
+                    else -> "."
+                }
+            } "
         }
         return line
     }
@@ -108,6 +112,7 @@ class Space(nature: Nature) : Looping {
     }
 
     private fun report() {
+
         reportors.forEach({
             println("report by $it:")
             it.invoke(this)

@@ -3,9 +3,9 @@ package tw.supra.w2
 import java.util.concurrent.*
 import kotlin.math.abs
 
-class Nature(maxDistance: Int) {
+class Nature(maxDistance: Int, spaceReporter: Space.() -> Unit = Space.DEFAULT_REPORTOR) {
     val maxAbsoluteDistance = abs(maxDistance)
-    val space = Space(this)
+    val space = Space(this, spaceReporter)
     val executorService by lazy { Executors.newScheduledThreadPool(1) }
 
     fun createSpirit(count: Int) {
