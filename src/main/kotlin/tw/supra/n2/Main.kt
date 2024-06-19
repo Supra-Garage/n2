@@ -65,7 +65,7 @@ fun App() {
 //                        fontSize = 18.sp,x
 //                        lineHeight = 18.sp, // 设置行高
 //                            letterSpacing = 2.sp, // 设置字符间距
-                            textAlign = TextAlign.Center, // 确保文本左对齐
+                            textAlign = TextAlign.Center, // 确保文本左对齐Xzibit
                         )
                     )
                 }
